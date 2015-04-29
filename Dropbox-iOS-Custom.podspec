@@ -13,5 +13,9 @@ Pod::Spec.new do |s|
       'Classes/**/*.{h,m,mm}'
   ]
 
-  s.weak_frameworks = 'Appkit'
+  s.frameworks    = 'Foundation'
+  s.ios.weak_frameworks   = 'UIKit'
+  s.osx.weak_frameworks   = 'AppKit'
+  s.ios.deployment_target = '7.0'
+  s.osx.deployment_target = '10.7'
 end
