@@ -10,7 +10,6 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
-#import "DBConnectController.h"
 #import "DBLog.h"
 
 
@@ -18,7 +17,6 @@ static NSString *kDBProtocolDropbox = @"dbapi-2";
 
 /* A key to keep track of the nonce for the current link flow */
 static NSString *kDBLinkNonce = @"dropbox.sync.nonce";
-
 
 @implementation DBSession (iOS)
 
@@ -58,11 +56,13 @@ static NSString *kDBLinkNonce = @"dropbox.sync.nonce";
     return NO;
 }
 
-- (void)linkUserId:(NSString *)userId fromController:(UIViewController *)rootController {
+- (void)linkUserId:(NSString *)userId fromController:(UIViewController *)rootController completion:(DBLinkCompletionBlock)completion {
     if (![self appConformsToScheme]) {
         DBLogError(@"DropboxSDK: unable to link; app isn't registered for correct URL scheme (%@)", [self appScheme]);
         return;
     }
+    
+    self.completion = completion;
 
     extern NSString *kDBDropboxUnknownUserId;
     NSString *userIdStr = @"";
@@ -98,19 +98,21 @@ static NSString *kDBLinkNonce = @"dropbox.sync.nonce";
         urlStr = [NSString stringWithFormat:@"%@://%@/%@/connect_login?k=%@&s=%@&state=%@&easl=1%@",
                   kDBProtocolHTTPS, kDBDropboxWebHost, kDBDropboxAPIVersion,
                   consumerKey, secret, nonce, userIdStr];
-        UIViewController *connectController = [[[DBConnectController alloc] initWithUrl:[NSURL URLWithString:urlStr] fromController:rootController session:self] autorelease];
+        DBConnectController *connectController = [[[DBConnectController alloc] initWithUrl:[NSURL URLWithString:urlStr] fromController:rootController session:self] autorelease];
+        connectController.delegate = self;
+        
         UINavigationController *navController = [[[UINavigationController alloc] initWithRootViewController:connectController] autorelease];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             connectController.modalPresentationStyle = UIModalPresentationFormSheet;
             navController.modalPresentationStyle = UIModalPresentationFormSheet;
         }
 
-        [rootController presentModalViewController:navController animated:YES];
+        [rootController presentViewController:navController animated:YES completion:nil];
     }
 }
 
-- (void)linkFromController:(UIViewController *)rootController {
-    [self linkUserId:nil fromController:rootController];
+- (void)linkFromController:(UIViewController *)rootController completion:(DBLinkCompletionBlock)completion {
+    [self linkUserId:nil fromController:rootController completion:completion];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url {
@@ -132,17 +134,47 @@ static NSString *kDBLinkNonce = @"dropbox.sync.nonce";
 		NSString *nonce = [[NSUserDefaults standardUserDefaults] objectForKey:kDBLinkNonce];
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kDBLinkNonce];
 		[[NSUserDefaults standardUserDefaults] synchronize];
-		if (![nonce isEqual:state]) {
+		
+        if (![nonce isEqual:state]) {
 			DBLogError(@"unable to verify link request");
+            
+            if (self.completion != nil) {
+                self.completion();
+                
+                self.completion = nil;
+            }
+            
 			return NO;
 		}
 
         [self updateAccessToken:token accessTokenSecret:secret forUserId:userId];
+        
+        if (self.completion != nil) {
+            self.completion();
+            
+            self.completion = nil;
+        }
     } else if ([methodName isEqual:@"cancel"]) {
         DBLogInfo(@"DropboxSDK: user cancelled Dropbox link");
+        
+        if (self.completion != nil) {
+            self.completion();
+            
+            self.completion = nil;
+        }
     }
 
     return YES;
+}
+
+#pragma mark - DBConnectControllerDelegate
+
+- (void)connectControllerDidReturn:(DBConnectController *)controller {
+    if (self.completion != nil) {
+        self.completion();
+        
+        self.completion = nil;
+    }
 }
 
 @end

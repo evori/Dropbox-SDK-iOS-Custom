@@ -8,9 +8,19 @@
 
 #import "DBSession.h"
 
+@protocol DBConnectControllerDelegate;
+
 @interface DBConnectController : UIViewController
+
+@property (nonatomic, assign) id<DBConnectControllerDelegate> delegate;
 
 - (id)initWithUrl:(NSURL *)connectUrl fromController:(UIViewController *)rootController;
 - (id)initWithUrl:(NSURL *)connectUrl fromController:(UIViewController *)rootController session:(DBSession *)session;
+
+@end
+
+@protocol DBConnectControllerDelegate <NSObject>
+
+- (void)connectControllerDidReturn:(DBConnectController *)controller;
 
 @end

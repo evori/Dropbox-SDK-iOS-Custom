@@ -324,7 +324,14 @@ extern id<DBNetworkRequestDelegate> dbNetworkRequestDelegate;
     if ([webView isLoading]) {
         [webView stopLoading];
     }
-    [self.navigationController dismissModalViewControllerAnimated:animated];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(connectControllerDidReturn:)]) {
+        [self.delegate connectControllerDidReturn:self];
+    }
+    
+    self.delegate = nil;
+    
+    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dismiss {

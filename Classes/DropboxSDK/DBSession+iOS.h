@@ -7,17 +7,20 @@
 //
 
 #import "DBSession.h"
+#import "DBConnectController.h"
 
 #import <UIKit/UIKit.h>
 
-@interface DBSession (iOS)
+@interface DBSession (iOS) <DBConnectControllerDelegate> {
+    
+}
 
 + (NSDictionary*)parseURLParams:(NSString *)query;
 
 - (NSString *)appScheme;
 
-- (void)linkFromController:(UIViewController *)rootController;
-- (void)linkUserId:(NSString *)userId fromController:(UIViewController *)rootController;
+- (void)linkFromController:(UIViewController *)rootController completion:(DBLinkCompletionBlock)completion;
+- (void)linkUserId:(NSString *)userId fromController:(UIViewController *)rootController completion:(DBLinkCompletionBlock)completion;
 
 - (BOOL)handleOpenURL:(NSURL *)url;
 

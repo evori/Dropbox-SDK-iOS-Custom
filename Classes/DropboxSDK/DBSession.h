@@ -20,8 +20,9 @@ extern NSString *kDBRootAppFolder;
 
 extern NSString *kDBProtocolHTTPS;
 
-@protocol DBSessionDelegate;
+typedef void (^DBLinkCompletionBlock) (void);
 
+@protocol DBSessionDelegate;
 
 /*  Creating and setting the shared DBSession should be done before any other Dropbox objects are
     used, perferrably in the UIApplication delegate. */
@@ -48,6 +49,8 @@ extern NSString *kDBProtocolHTTPS;
 @property (nonatomic, readonly) NSString *root;
 @property (nonatomic, readonly) NSArray *userIds;
 @property (nonatomic, assign) id<DBSessionDelegate> delegate;
+
+@property (nonatomic, copy) DBLinkCompletionBlock completion;
 
 @end
 
