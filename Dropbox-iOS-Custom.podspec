@@ -12,4 +12,6 @@ Pod::Spec.new do |s|
   s.source_files = [
       'Classes/**/*.{h,m,mm}'
   ]
+
+  s.weak_frameworks = 'Appkit'
 end
