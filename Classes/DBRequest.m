@@ -41,8 +41,9 @@ id<DBNetworkRequestDelegate> dbNetworkRequestDelegate = nil;
         selector = aSelector;
         
         fileManager = [NSFileManager new];
-        urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
         [urlConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        [urlConnection start];
         [dbNetworkRequestDelegate networkRequestStarted];
     }
     return self;
