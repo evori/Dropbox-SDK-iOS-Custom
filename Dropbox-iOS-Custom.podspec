@@ -10,11 +10,10 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/gravera/Dropbox-SDK-iOS-Custom.git', :tag => '1.0.0' }
   s.requires_arc   = false
   s.source_files = [
-      'Classes/**/*.{h,m,mm}'
+      'Classes/**/*.{h,m,mm,c}'
   ]
-  s.ios.exclude_files = "Classes/*OSX.{h,m,mm}"
+  s.ios.exclude_files = "Classes/*OSX.{h,m,mm,c}"
 
-  s.xcconfig = { 'OTHER_LDFLAGS' => '-lObjC'  }
   s.frameworks        = 'Foundation', 'Security', 'CoreFoundation'
   s.ios.weak_frameworks   = 'UIKit'
   s.osx.frameworks = 'Security', 'Cocoa'
