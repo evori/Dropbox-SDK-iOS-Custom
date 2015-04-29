@@ -12,10 +12,11 @@ Pod::Spec.new do |s|
   s.source_files = [
       'Classes/**/*.{h,m,mm}'
   ]
+  s.ios.exclude_files = "Classes/*OSX.{h,m,mm}"
 
-  s.frameworks        = 'Foundation', 'Security', 'Cocoa', 'CoreFoundation'
+  s.frameworks        = 'Foundation', 'Security', 'CoreFoundation'
   s.ios.weak_frameworks   = 'UIKit'
-  s.osx.frameworks = 'Security'
+  s.osx.frameworks = 'Security', 'Cocoa'
   s.osx.weak_frameworks   = 'AppKit'
   s.ios.deployment_target = '7.0'
   s.osx.deployment_target = '10.10'
