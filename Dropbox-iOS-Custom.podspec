@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   ]
   s.ios.exclude_files = "Classes/*OSX.{h,m,mm}"
 
-  s.xcconfig = { 'OTHER_LDFLAGS' => '-lObjC' }
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-lObjC', 'ARCHS' => 'arm64 x86_64', 'IPHONEOS_DEPLOYMENT_TARGET' => '7.0'  }
   s.frameworks        = 'Foundation', 'Security', 'CoreFoundation'
   s.ios.weak_frameworks   = 'UIKit'
   s.osx.frameworks = 'Security', 'Cocoa'
