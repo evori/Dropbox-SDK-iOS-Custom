@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name     = 'Dropbox-iOS-Custom'
   s.version  = '1.0.0'
   s.license  = 'MIT'
-  s.summary  = ""
+  s.summary  = 'Dropbox-iOS-Custom'
   s.homepage = 'https://github.com/gravera/Dropbox-SDK-iOS-Custom'
   s.authors  = { 'Galin Kardzhilov' =>
                  'g@gravera.net' }
