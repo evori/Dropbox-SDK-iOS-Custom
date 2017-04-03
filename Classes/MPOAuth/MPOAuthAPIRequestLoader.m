@@ -108,8 +108,11 @@ NSString * const MPOAuthNotificationErrorHasOccurred		= @"MPOAuthNotificationErr
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 		MPLog(@"%p: [%@ %@] %@, %@", self, NSStringFromClass([self class]), NSStringFromSelector(_cmd), connection, error);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 	if ([_target respondsToSelector:@selector(loader:didFailWithError:)]) {
 		[_target performSelector: @selector(loader:didFailWithError:) withObject: self withObject: error];
+#pragma clang diagnostic pop
 	}
 }
 
