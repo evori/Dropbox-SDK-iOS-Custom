@@ -9,7 +9,7 @@
 #import "DBRequest.h"
 #import "DBLog.h"
 #import "DBError.h"
-#import "JSON.h"
+#import "JSON/JSON.h"
 #import "DBBase64Transcoder.h"
 
 // These constants come back from the API, but aren't defined as constants anywhere
