@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors  = { 'Galin Kardzhilov' =>
                  'g@gravera.net' }
   s.social_media_url = ""
-  s.source   = { :git => 'https://github.com/gravera/Dropbox-SDK-iOS-Custom.git', :tag => '1.0.0' }
+  s.source   = { :git => 'https://github.com/evori/Dropbox-SDK-iOS-Custom.git', :tag => '1.0.0' }
   s.requires_arc   = false
   s.source_files = [
       'Classes/**/*.{h,m,mm,c}'
