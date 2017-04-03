@@ -303,7 +303,7 @@ extern id<DBNetworkRequestDelegate> dbNetworkRequestDelegate;
             [delegate application:app openURL:openUrl options:options];
         }
         else {
-            [delegate application:app openURL:openUrl sourceApplication:@"com.getdropbox.Dropbox" annotation:[NSNull null]];
+            [delegate application:app openURL:openUrl sourceApplication:@"com.getdropbox.Dropbox" annotation:@{}];
         }
     } else if ([delegate respondsToSelector:@selector(application:handleOpenURL:)]) {
         [delegate application:app handleOpenURL:openUrl];
