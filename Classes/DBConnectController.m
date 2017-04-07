@@ -285,7 +285,7 @@ extern id<DBNetworkRequestDelegate> dbNetworkRequestDelegate;
 
 + (NSURLRequest *)requestForUrl:(NSURL *)reqUrl {
     return [[[NSURLRequest alloc] initWithURL:reqUrl
-                                  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                  cachePolicy:NSURLCacheStorageNotAllowed
                               timeoutInterval:20] autorelease];
 }
 
@@ -298,13 +298,7 @@ extern id<DBNetworkRequestDelegate> dbNetworkRequestDelegate;
     id<UIApplicationDelegate> delegate = app.delegate;
 
     if ([delegate respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)]) {
-        if ([delegate respondsToSelector:@selector(application:openURL:options:)]) {
-            NSDictionary *options = @ { UIApplicationOpenURLOptionsSourceApplicationKey: @"com.getdropbox.Dropbox" };
-            [delegate application:app openURL:openUrl options:options];
-        }
-        else {
-            [delegate application:app openURL:openUrl sourceApplication:@"com.getdropbox.Dropbox" annotation:@{}];
-        }
+        [delegate application:app openURL:openUrl sourceApplication:@"com.getdropbox.Dropbox" annotation:nil];
     } else if ([delegate respondsToSelector:@selector(application:handleOpenURL:)]) {
         [delegate application:app handleOpenURL:openUrl];
     } else {

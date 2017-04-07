@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'Dropbox-iOS-Custom'
-  s.version  = '1.0.1'
+  s.version  = '1.0.0'
   s.license  = 'MIT'
   s.summary  = 'Dropbox-iOS-Custom'
   s.homepage = 'https://github.com/gravera/Dropbox-SDK-iOS-Custom'

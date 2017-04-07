@@ -15,7 +15,6 @@
 #import "MPURLRequestParameter.h"
 #import "NSURLResponse+Encoding.h"
 #import "MPDebug.h"
-#import "MPOAuth.h"
 
 NSString * const MPOAuthNotificationRequestTokenReceived	= @"MPOAuthNotificationRequestTokenReceived";
 NSString * const MPOAuthNotificationRequestTokenRejected	= @"MPOAuthNotificationRequestTokenRejected";
@@ -38,7 +37,7 @@ NSString * const MPOAuthNotificationErrorHasOccurred		= @"MPOAuthNotificationErr
 - (void)_interrogateResponseForOAuthData;
 @end
 
-//@protocol MPOAuthAPIInternalClient;
+@protocol MPOAuthAPIInternalClient;
 
 @implementation MPOAuthAPIRequestLoader
 
@@ -108,11 +107,8 @@ NSString * const MPOAuthNotificationErrorHasOccurred		= @"MPOAuthNotificationErr
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 		MPLog(@"%p: [%@ %@] %@, %@", self, NSStringFromClass([self class]), NSStringFromSelector(_cmd), connection, error);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
 	if ([_target respondsToSelector:@selector(loader:didFailWithError:)]) {
 		[_target performSelector: @selector(loader:didFailWithError:) withObject: self withObject: error];
-#pragma clang diagnostic pop
 	}
 }
 
